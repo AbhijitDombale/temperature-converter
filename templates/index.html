@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature Converter</title>
+    <style>
+        body {
+            background-color: #121212;
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #1e1e1e;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+            width: 380px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #00ff88;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            text-align: left;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            background-color: #2e2e2e;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        select {
+            appearance: none;
+        }
+
+        button {
+            width: 100%;
+            background-color: #00ff88;
+            color: black;
+            font-weight: bold;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #00cc66;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: left;
+            color: #00ff88;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Temperature Converter</h2>
+    <form method="POST">
+        <label>Enter Temperature:</label>
+        <input type="text" name="temp_value" required value="{{ request.form.temp_value or '' }}">
+
+        <label>From Unit:</label>
+        <select name="temp_unit">
+            <option value="Celsius" {% if request.form.temp_unit == 'Celsius' %}selected{% endif %}>Celsius (°C)</option>
+            <option value="Fahrenheit" {% if request.form.temp_unit == 'Fahrenheit' %}selected{% endif %}>Fahrenheit (°F)</option>
+            <option value="Kelvin" {% if request.form.temp_unit == 'Kelvin' %}selected{% endif %}>Kelvin (K)</option>
+        </select>
+
+        <label>Convert To:</label>
+        <select name="convert_to">
+            <option value="Celsius" {% if request.form.convert_to == 'Celsius' %}selected{% endif %}>Celsius (°C)</option>
+            <option value="Fahrenheit" {% if request.form.convert_to == 'Fahrenheit' %}selected{% endif %}>Fahrenheit (°F)</option>
+            <option value="Kelvin" {% if request.form.convert_to == 'Kelvin' %}selected{% endif %}>Kelvin (K)</option>
+        </select>
+
+        <button type="submit">Convert</button>
+    </form>
+
+    {% if result %}
+        {% if result.Error %}
+            <div class="error">{{ result.Error }}</div>
+        {% else %}
+            <div class="result">
+                <p><strong>Converted:</strong> {{ result }}</p>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+</body>
+</html>
